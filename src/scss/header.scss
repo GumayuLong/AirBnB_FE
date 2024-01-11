@@ -1,0 +1,121 @@
+nav {
+  position: fixed;
+}
+
+.ant-btn {
+  border-radius: 9999px;
+  line-height: 0.5rem;
+  padding: 0 15px;
+}
+
+Button {
+  transition: all 0.5s !important;
+}
+
+Button:focus {
+  outline: none !important;
+}
+
+GlobalOutlined {
+  line-height: 50px;
+}
+
+.ant-menu-item-icon {
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+}
+
+.ant-menu-submenu-title svg {
+  color: white;
+  width: 100%;
+  height: 50%;
+}
+
+.ant-menu-submenu-title {
+  border: gray solid 1px;
+  border-radius: 999px;
+  transition: all 0.5s !important;
+  border-radius: 9999px !important;
+  border: none !important;
+}
+
+.ant-menu-submenu-title:hover,
+Button:hover {
+  box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.content-center {
+  .ant-menu-title-content {
+    color: rgb(44, 42, 42);
+  }
+}
+
+.ant-picker-range {
+  width: 141%;
+}
+
+.ant-input-number-group-wrapper {
+  width: 100%;
+}
+
+.ant-menu-item-selected {
+  background-color: transparent !important;
+}
+.ant-menu-item:focus-visible {
+  outline: 4px solid #ef9bb7 !important;
+}
+
+.ant-picker:hover,
+.ant-input-number-affix-wrapper:hover,
+.ant-select-selector:hover {
+  border-color: #f2719c !important;
+}
+
+.ant-menu-item {
+  line-height: 32px !important;
+}
+
+.navbar-collapse {
+  flex-basis: 0;
+}
+
+@media screen and (max-width: 958.98px) {
+  .collapse {
+    ul {
+      width: 380px !important;
+    }
+  }
+
+  .layout {
+    .demo-logo {
+      span {
+        display: none;
+      }
+    }
+
+    .header-rear {
+      .dropdown {
+        margin-right: 0 !important;
+      }
+      .admin {
+        display: none;
+      }
+    }
+  }
+
+  .in-1 {
+    display: none !important;
+  }
+
+  .in-2 {
+    display: block !important;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  .ant-layout-header {
+    padding: 0 20px;
+  }
+}
