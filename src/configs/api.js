@@ -5,7 +5,7 @@ const request = Axios.create({
 	baseURL: `http://localhost:8080/api`,
 	headers: {
 		authorization:
-			"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo3LCJlbWFpbCI6ImJhb3Rpbmh1eW5oQGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6IlRpbkFkbWluIiwicm9sZSI6IkFETUlOIn0sImlhdCI6MTcwNDc2MTYwNCwiZXhwIjoxNzM2MzE5MjA0fQ.JEU4pDG9NK0K0z_pa_69eu0iurKGEGizI2rHAa-aTy0",
+			"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo2LCJlbWFpbCI6Imxvbmd0bzEyNUBnbWFpbC5jb20iLCJmdWxsX25hbWUiOiJZdUxvbmciLCJyb2xlIjoiQURNSU4ifSwiaWF0IjoxNzA0OTY0ODAxLCJleHAiOjE3MzY1MjI0MDF9.7nfYOSHeCqYuTcwU4RFhSkMVllxImCWQs6YxReNTTfY",
 	},
 });
 

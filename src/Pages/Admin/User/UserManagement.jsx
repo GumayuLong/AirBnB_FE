@@ -30,6 +30,14 @@ export default function UserManagement() {
 		setLoadingContext({ isLoading: false });
 	};
 
+	const renderGender = (object) => {
+		if (object.gender == 'true') {
+			return "Nam";
+		} else if (object.gender == 'false') {
+			return "Nữ";
+		}
+	}
+
 	const columns = [
 		{
 			title: "ID",
@@ -62,7 +70,7 @@ export default function UserManagement() {
 		{
 			title: "Giới tính",
 			dataIndex: "gender",
-			render: (text, object) => <>{object.gender ? "Nam" : "Nữ"}</>,
+			render: (text, object) => <>{renderGender(object)}</>,
 		},
 		{
 			title: "Ngày sinh",
