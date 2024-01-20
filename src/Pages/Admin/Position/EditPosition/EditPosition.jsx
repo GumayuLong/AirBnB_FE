@@ -6,6 +6,7 @@ import { positionService } from "../../../../services/positionService";
 import { loadingContext } from "../../../../contexts/LoadingContext/LoadingContext";
 
 export default function EditPosition() {
+	const [file, setFile] = useState(null);
 	const [img, setImg] = useState();
 	const [positionDetail, setPositionDetail] = useState({});
 	const [_, setLoadingContext] = useContext(loadingContext);
@@ -27,6 +28,10 @@ export default function EditPosition() {
 		setLoadingContext({ isLoading: false });
 	};
 
+	const handleUploadAvatar = (e) => {
+		setFile(e.target.files[0]);
+	};
+
 	const formik = useFormik({
 		enableReinitialize: true,
 		initialValues: {
@@ -38,6 +43,25 @@ export default function EditPosition() {
 
 		onSubmit: async (values) => {
 			try {
+				const data = new FormData();
+				data.append("formFile", file);
+				await positionService
+					.putAvaPositionApi(
+						data,
+						params.positionId
+					)
+					.then((result) => {
+						notification.success({
+							message: "Thêm ảnh vị trí thành công!",
+							placement: "topRight",
+						});
+					})
+					.catch((err) => {
+						notification.error({
+							message: `${err.response.data}`,
+							placement: "topRight",
+						});
+					});
 				await positionService.fetchUpdatePositionApi(
 					params.positionId,
 					values
@@ -104,6 +128,16 @@ export default function EditPosition() {
 								value={formik.values.quoc_gia}
 								onChange={formik.handleChange}
 								placeholder="Quốc gia"
+							/>
+						</Form.Item>
+					</Col>
+					<Col className="gutter-row" span={12}>
+						<Form.Item label="Hình ảnh">
+							<Input
+								onChange={handleUploadAvatar}
+								type="file"
+								size="large"
+								name="hinh_anh"
 							/>
 						</Form.Item>
 					</Col>

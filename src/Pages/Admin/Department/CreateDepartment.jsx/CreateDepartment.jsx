@@ -19,7 +19,12 @@ export default function CreateDepartment() {
 	const [state, setState] = useState({
 		position: [],
 	});
+	const [file, setFile] = useState(null);
 	const navigate = useNavigate();
+
+	const handleUploadAvatar = (e) => {
+		setFile(e.target.files[0]);
+	};
 
 	const formik = useFormik({
 		initialValues: {
@@ -44,20 +49,31 @@ export default function CreateDepartment() {
 		},
 
 		onSubmit: async (values) => {
-			try {
-				await departmentService.fetchCreateDepartmentApi(values).then((result) => {
-                    notification.success({
-						message: "Thêm phòng thuê thành công!",
-						placement: "bottomRight",
-					});
-					navigate("/admin/department");
-                }).catch((err) => console.log(err));
-			} catch (error) {
-				notification.error({
-					message: `${error.response.data}`,
-					placement: "bottomRight",
-				});
-			}
+			const fileHinh = new FormData();
+			fileHinh.append("formFile", file);
+			await departmentService
+				.fetchCreateDepartmentApi(values)
+				.then(async (result) => {
+					console.log(fileHinh);
+					await departmentService
+						.uploadAvatarDepartment(result.data.id, fileHinh)
+						.then((result) => {
+							console.log(result.data);
+							notification.success({
+								message: "Thêm phòng thuê thành công!",
+								placement: "bottomRight",
+							});
+							navigate("/admin/department");
+						})
+						.catch((err) => {
+							console.log(err);
+							notification.error({
+								message: `${err.response.data.message}`,
+								placement: "bottomRight",
+							});
+						});
+				})
+				.catch((err) => console.log(err));
 		},
 	});
 
@@ -67,12 +83,15 @@ export default function CreateDepartment() {
 
 	const fetchPositionList = async () => {
 		try {
-			await positionService.fetchPositionApi().then((result) => {
-                setState({ ...state, position: result.data });
-            }).catch((err) => console.log(err))
+			await positionService
+				.fetchPositionApi()
+				.then((result) => {
+					setState({ ...state, position: result.data });
+				})
+				.catch((err) => console.log(err));
 		} catch (error) {
-            console.log(error)
-        }
+			console.log(error);
+		}
 	};
 
 	const selectPosition = () => {
@@ -195,6 +214,17 @@ export default function CreateDepartment() {
 								name="mo_ta"
 								onChange={formik.handleChange}
 								placeholder="Mô tả"
+							/>
+						</Form.Item>
+					</Col>
+					<Col className="gutter-row" span={12}>
+						<Form.Item label="Hình ảnh">
+							<Input
+								style={{ width: "100%" }}
+								size="large"
+								name="hinh_anh"
+								onChange={handleUploadAvatar}
+								type="file"
 							/>
 						</Form.Item>
 					</Col>

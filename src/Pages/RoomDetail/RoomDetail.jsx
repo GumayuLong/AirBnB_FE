@@ -106,6 +106,7 @@ export default function RoomDetail() {
 	const fetchCommentList = async () => {
 		await commentService.fetchCommentListApi(params.id)
 			.then((result) => {
+				console.log(result.data)
 				setListComments(result.data);
 			})
 			.catch((err) => console.log(err));
@@ -219,26 +220,26 @@ export default function RoomDetail() {
 	};
 
 	const renderComment = () => {
-		const limitedListComments = listComments.slice(0, 6);
-		return limitedListComments.map((element) => {
+		// const limitedListComments = listComments.slice(0, 6);
+		return listComments.map((element) => {
 			return (
 				<>
 					<div className="col-6 mb-5">
 						<div className="d-flex align-items-start">
-							{/* {element.avatar ? (
+							{element.nguoi_dung.avatar ? (
 								<img
-									src={element.avatar}
+									src={element.nguoi_dung.avatar}
 									className="comment__img"
 								/>
 							) : (
 								<img
-									scr="https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg"
+									scr="http://dergipark.org.tr/assets/app/images/buddy_sample.png"
 									className="comment__img"
 								/>
-							)} */}
+							)}
 							<div className="ml-3">
 								<h6 className="font-semibold text-base tracking-wide text-gray-900">
-									{element.ma_nguoi_binh_luan} -{" "}
+									{element.nguoi_dung.full_name} -{" "}
 									<span className="font-normal text-sm text-gray-500">
 										{dayjs(element.ngay_binh_luan).format(
 											"DD/MM/YYYY"

@@ -5,32 +5,44 @@ import { useNavigate } from "react-router-dom";
 import { positionService } from "../../../../services/positionService";
 
 export default function CreatePosition() {
+	const [file, setFile] = useState(null);
 	const [img, setImg] = useState();
 	const navigate = useNavigate();
 
+	const handleUploadAvatar = (e) => {
+		setFile(e.target.files[0]);
+	};
+
 	const formik = useFormik({
 		initialValues: {
-			tenViTri: "",
-			tinhThanh: "",
-			quocGia: "",
-			hinhAnh: "",
+			ten_vi_tri: "",
+			tinh_thanh: "",
+			quoc_gia: "",
+			hinh_anh: "",
 		},
 
 		onSubmit: async (values) => {
+			const fileHinh = new FormData();
+			fileHinh.append("formFile", file);
 			await positionService
 				.fetchCreatePositionApi(values)
-				.then((result) => {
-					notification.success({
-						message: "Tạo vị trí thành công!",
-						placement: "bottomRight",
-					});
-					navigate("/admin/position");
+				.then(async (result) => {
+					await positionService.createUploadHinhViTriApi(result.data.id, fileHinh).then((result) => {
+						notification.success({
+							message: "Tạo vị trí thành công!",
+							placement: "bottomRight",
+						});
+						navigate("/admin/position");
+					}).catch((err) => {
+						console.log(err)
+						notification.error({
+							message: `${err}`,
+							placement: "bottomRight",
+						});
+					})
 				})
 				.catch((err) => {
-					notification.error({
-						message: `${err.response.data}`,
-						placement: "bottomRight",
-					});
+					console.log(err)
 				});
 		},
 	});
@@ -85,10 +97,10 @@ export default function CreatePosition() {
 					<Col className="gutter-row" span={12}>
 						<Form.Item label="Hình ảnh">
 							<Input
+								type="file"
 								size="large"
 								name="hinh_anh"
-								onChange={formik.handleChange}
-								placeholder="Hình ảnh"
+								onChange={handleUploadAvatar}
 							/>
 						</Form.Item>
 					</Col>

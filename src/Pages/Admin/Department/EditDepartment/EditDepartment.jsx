@@ -1,3 +1,5 @@
+/** @format */
+
 import {
 	Col,
 	Form,
@@ -22,6 +24,7 @@ export default function EditDepartment() {
 	});
 	const [department, setDepartment] = useState({});
 	const [_, setLoadingContext] = useContext(loadingContext);
+	const [file, setFile] = useState(null);
 	const navigate = useNavigate();
 	const params = useParams();
 
@@ -32,13 +35,17 @@ export default function EditDepartment() {
 
 	const fetchDepartmentDetail = async () => {
 		setLoadingContext({ isLoading: true });
-        await departmentService
+		await departmentService
 			.fetchDepartmentDetailApi(params.departmentId)
 			.then((result) => {
 				setDepartment(result.data);
 			})
 			.catch((err) => console.log(err));
 		setLoadingContext({ isLoading: false });
+	};
+
+	const handleUploadAvatar = (e) => {
+		setFile(e.target.files[0]);
 	};
 
 	const formik = useFormik({
@@ -67,33 +74,45 @@ export default function EditDepartment() {
 
 		onSubmit: async (values) => {
 			try {
-				await departmentService.fetchUpdateDepartmentApi(
-					params.departmentId,
-					values
-				).then((result) => {
-                    notification.success({
-						message: "Cập nhật phòng thuê thành công!",
-						placement: "bottomRight",
-					});
-					navigate("/admin/department");
-                }).catch((err) => console.log(err));
+				const data = new FormData();
+				data.append("formFile", file);
+				await departmentService
+					.fetchUpdateDepartmentApi(params.departmentId, values)
+					.then(async (result) => {
+						await departmentService
+							.updateAvaPhongApi(params.departmentId, data)
+							.then((result) => {
+								notification.success({
+									message: "Cập nhật phòng thuê thành công!",
+									placement: "bottomRight",
+								});
+								navigate("/admin/department");
+							})
+							.catch((error) => {
+								notification.error({
+									message: `${error.response.data.message}`,
+									placement: "bottomRight",
+								});
+							});
+					})
+					.catch((err) => console.log(err));
 			} catch (error) {
-				notification.error({
-					message: `${error.response.data}`,
-					placement: "bottomRight",
-				});
+				console.log(error);
 			}
 		},
 	});
 
 	const fetchPositionList = async () => {
 		try {
-            await positionService.fetchPositionApi().then((result) => {
-                setState({ ...state, position: result.data });
-            }).catch((err) => console.log(err))
+			await positionService
+				.fetchPositionApi()
+				.then((result) => {
+					setState({ ...state, position: result.data });
+				})
+				.catch((err) => console.log(err));
 		} catch (error) {
-            console.log(error)
-        }
+			console.log(error);
+		}
 	};
 
 	const selectPosition = () => {
@@ -228,6 +247,17 @@ export default function EditDepartment() {
 								onChange={formik.handleChange}
 								value={formik.values.mo_ta}
 								placeholder="Mô tả"
+							/>
+						</Form.Item>
+					</Col>
+					<Col className="gutter-row" span={12}>
+						<Form.Item label="Hình ảnh">
+							<Input
+								style={{ width: "100%" }}
+								size="large"
+								name="hinh_anh"
+								onChange={handleUploadAvatar}
+								type="file"
 							/>
 						</Form.Item>
 					</Col>

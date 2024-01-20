@@ -79,9 +79,9 @@ class UserService {
 		});
 	}
 
-	postAvatarApi(data) {
+	postAvatarApi(data, id) {
 		return request({
-			url: "/users/upload-avatar",
+			url: `/nguoi-dung/upload-avatar?id=${id}`,
 			method: "POST",
 			data,
 		});

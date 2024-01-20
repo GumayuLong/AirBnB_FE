@@ -30,10 +30,26 @@ class DepartmentService {
 		});
 	}
 
+	uploadAvatarDepartment(id, data) {
+		return request({
+			url: `/phong/upload-hinh-phong?maPhong=${id}`,
+			method: "POST",
+			data,
+		});
+	}
+
 	fetchCreateDepartmentApi(data) {
 		return request({
 			url: `/phong`,
 			method: "POST",
+			data,
+		});
+	}
+
+	updateAvaPhongApi(id, data) {
+		return request({
+			url: `/phong/upload-hinh-phong?maPhong=${id}`,
+			method: "PUT",
 			data,
 		});
 	}

@@ -119,28 +119,30 @@ export default function PersonalInfo() {
 		setFile(e.target.files[0]);
 	};
 
-	// const uploadAvatar = async () => {
-	// 	const data = new FormData();
-	// 	data.append("formFile", file);
-	// 	if (data && file !== "") {
-	// 		await userService
-	// 			.postAvatarApi(data)
-	// 			.then((result) => {
-	// 				notification.success({
-	// 					message: "Cập nhật avatar thành công",
-	// 					placement: "topRight",
-	// 				});
-	// 				setAvatar(result.data.content.avatar);
-	// 			})
-	// 			.catch((err) => {
-	// 				notification.warning({
-	// 					message: err.response.data.content,
-	// 					placement: "topRight",
-	// 				});
-	// 			});
-	// 	} else {
-	// 	}
-	// };
+	const uploadAvatar = async () => {
+		const data = new FormData();
+		data.append("formFile", file);
+		if (data && file !== "") {
+			await userService
+				.postAvatarApi(data, params.id)
+				.then((result) => {
+					console.log(result);
+					notification.success({
+						message: "Cập nhật avatar thành công",
+						placement: "topRight",
+					});
+					setAvatar(result.data.avatar);
+				})
+				.catch((err) => {
+					notification.warning({
+						message: err.response.data,
+						placement: "topRight",
+					});
+				});
+		} else {
+			console.log('Vui long chon file!');
+		}
+	};
 
 	const renderBookingInfo = () => {
 		return bookingInfo.map((element) => {
@@ -286,7 +288,7 @@ export default function PersonalInfo() {
 								<button
 									type="button"
 									className="btn btn-info"
-									// onClick={uploadAvatar}
+									onClick={uploadAvatar}
 									style={{ width: "100%" }}
 								>
 									Upload Avatar

@@ -14,14 +14,14 @@ class PositionService {
 		return request({
 			url: `/vi-tri`,
 			method: "GET",
-		})
+		});
 	}
 
 	positionDetailApi(id) {
 		return request({
 			url: `/vi-tri/${id}`,
 			method: "GET",
-		})
+		});
 	}
 
 	fetchDeletePositionApi(id) {
@@ -39,9 +39,25 @@ class PositionService {
 		});
 	}
 
+	createUploadHinhViTriApi(id, data) {
+		return request({
+			url: `/vi-tri/create-upload-hinh-vi-tri?maViTri=${id}`,
+			method: "POST",
+			data,
+		});
+	}
+
 	fetchUpdatePositionApi(id, data) {
 		return request({
 			url: `/vi-tri/${id}`,
+			method: "PUT",
+			data,
+		});
+	}
+
+	putAvaPositionApi(data, id) {
+		return request({
+			url: `/vi-tri/upload-hinh-vi-tri?maViTri=${id}`,
 			method: "PUT",
 			data,
 		});
