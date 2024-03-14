@@ -18,6 +18,14 @@ class UserService {
 		});
 	}
 
+	loginFb = async (data) => {
+		return request({
+			url: `/auth/signin-fb`,
+			method: "POST",
+			data,
+		});
+	}
+
 	// USER API
 
 	fetchUserListApi() {

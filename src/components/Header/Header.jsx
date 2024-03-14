@@ -30,7 +30,6 @@ export default function HeaderHome() {
 
 	const fetchLocateDetailApi = async () => {
 		await Axios.get(`http://localhost:8080/api/vi-tri`).then((result) => {
-      console.log(result.data)
       setLocateDetail(result.data);
     }).catch((err) => console.log(err));
 	};

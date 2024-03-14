@@ -5,6 +5,10 @@ import { setUserInfoAction } from "../../store/actions/userAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "../../scss/Login.scss";
+import axios from 'axios';
+import { LoginSocialFacebook } from 'reactjs-social-login';
+import { FacebookLoginButton } from 'react-social-login-buttons';
+import ReactFacebookLogin from 'react-facebook-login';
 
 import { Form, Input } from "antd";
 import { validation } from "../../validations/validation";
@@ -21,6 +25,10 @@ export default function Login() {
 		pass_word: "",
 	});
 	const [errMessage, setErrMessage] = useState("");
+
+	const loginFacebookApi = async (data) => {
+		return await axios.post(`http://localhost:8080/api/auth/signin-fb`, data);
+	}
 
 	const handleChange = (event) => {
 		setState({
@@ -112,6 +120,12 @@ export default function Login() {
 								<button className="btn btn-primary btncustom">
 									Đăng nhập
 								</button>
+								<div
+									style={{
+										marginTop: "15px",
+										textAlign: "center",
+									}}
+								></div>
 								<div>
 									<h3 className="connectlink">
 										Bạn chưa có tài khoản?
@@ -119,6 +133,40 @@ export default function Login() {
 									</h3>
 								</div>
 							</form>
+							{/* <LoginSocialFacebook appId="904716094514255" onResolve={(response) => {
+								console.log(response.data)
+								
+							}} onReject={(error) => {
+								console.log(error)
+							}}>
+								<FacebookLoginButton />
+							</LoginSocialFacebook> */}
+							{/* <ReactFacebookLogin
+								appId="904716094514255"
+								autoLoad={false}
+								fields="name, email, picture"
+								callback={(responseFacebook) => {
+									// console.log(responseFacebook);
+									let { email, name } = responseFacebook;
+									let data = {
+										email,
+										full_name: name,
+										avatar:
+											responseFacebook.picture.data.url,
+									};
+									console.log(responseFacebook);
+									loginFacebookApi(data)
+										.then((result) => {
+											console.log(result.data);
+											localStorage.setItem(
+												"USER_INFO",
+												result.data.createNewUser
+											);
+											navigate("/");
+										})
+										.catch((err) => console.log(err));
+								}}
+							/> */}
 						</div>
 					</div>
 				</main>
