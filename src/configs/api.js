@@ -1,11 +1,10 @@
 import Axios from "axios";
 import { store } from "../store/config.js";
-export const BASE_URL_DEV = "http://localhost:8080/api";
 
 const request = Axios.create({
-	baseURL: `${BASE_URL_DEV}`,
+	baseURL: `${process.env.REACT_APP_BASE_URL_DEV}`,
 	headers: {
-		authorization: process.env.ACCESS_TOKEN,
+		authorization: process.env.REACT_APP_ACCESS_TOKEN,
 	},
 });
 
